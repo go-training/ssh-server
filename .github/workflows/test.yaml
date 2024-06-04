@@ -39,6 +39,8 @@ jobs:
             -e PASSWORD_ACCESS=true  \
             -e USER_PASSWORD=password  \
             -e USER_NAME=linuxserver.io `#optional`
+            --restart unless-stopped \
+            lscr.io/linuxserver/openssh-server:latest
 
       - name: executing remote ssh commands using password (0.1.3)
         uses: appleboy/ssh-action@v0.1.3
