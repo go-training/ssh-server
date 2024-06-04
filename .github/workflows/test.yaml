@@ -38,7 +38,7 @@ jobs:
             -e SUDO_ACCESS=false \
             -e PASSWORD_ACCESS=true  \
             -e USER_PASSWORD=password  \
-            -e USER_NAME=linuxserver.io `#optional`
+            -e USER_NAME=linuxserver.io \
             --restart unless-stopped \
             lscr.io/linuxserver/openssh-server:latest
 
