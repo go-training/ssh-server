@@ -1,0 +1,31 @@
+name: Setup SSH Server
+
+on: [push]
+
+jobs:
+  setup-ssh-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install SSH Server
+        run: sudo apt-get update && sudo apt-get install -y openssh-server
+
+      - name: Configure SSH Server
+        run: |
+          sudo mkdir -p /var/run/sshd
+          echo 'root:password' | sudo chpasswd
+          sudo sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+          sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+          sudo service ssh start
+
+      - name: Display SSH Server Status
+        run: sudo service ssh status
+
+      - name: Print SSH Connection Details
+        run: |
+          echo "SSH Server is running."
+          echo "You can connect using the following command:"
+          echo "ssh root@$(curl -s ifconfig.me) -p 22"
