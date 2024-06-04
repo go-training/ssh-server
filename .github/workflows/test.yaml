@@ -25,7 +25,18 @@ jobs:
         run: sudo service ssh status
 
       - name: Print SSH Connection Details
+        id: ssh
         run: |
           echo "SSH Server is running."
           echo "You can connect using the following command:"
           echo "ssh root@$(curl -s ifconfig.me) -p 22"
+          echo CURRENT_IP=$(curl -s ifconfig.me) >> $GITHUB_ENV
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ steps.ssh.outputs.CURRENT_IP }}
+          username: root
+          password: password
+          port: 22
+          script: whoami
