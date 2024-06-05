@@ -35,7 +35,7 @@ jobs:
           -e PASSWORD_ACCESS=true  \
           -e USER_PASSWORD=password  \
           -e USER_NAME=linuxserver.io \
-          -e PUBLIC_KEY=${{ env.PUBLIC_KEY }} \
+          -e PUBLIC_KEY="${{ env.PUBLIC_KEY }}" \
           --restart unless-stopped \
           lscr.io/linuxserver/openssh-server:latest
           docker exec openssh-server sh -c "hostname -i" > ip.txt
