@@ -10,6 +10,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: add public key to env
+        run: |
+          echo "PUBLIC_KEY<<EOF" >> $GITHUB_ENV
+          cat testdata/.ssh/id_rsa.pub >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: create new ssh server
         run: |
           docker run -d \
@@ -20,7 +26,7 @@ jobs:
           -e PASSWORD_ACCESS=true  \
           -e USER_PASSWORD=password  \
           -e USER_NAME=linuxserver.io \
-          -e PUBLIC_KEY=$(cat testdata/.ssh/id_rsa.pub) \
+          -e PUBLIC_KEY=${{ env.PUBLIC_KEY }} \
           --restart unless-stopped \
           lscr.io/linuxserver/openssh-server:latest
           docker exec openssh-server sh -c "hostname -i" > ip.txt
