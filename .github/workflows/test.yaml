@@ -48,8 +48,9 @@ jobs:
           echo "REMOTE_HOST<<EOF" >> $GITHUB_ENV
           cat ip.txt >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          echo "======= container ip address ========="
           cat ip.txt
-          echo ${{ env.REMOTE_HOST }}
+          echo "======================================"
 
       - name: executing remote ssh commands using password (0.1.3)
         uses: appleboy/ssh-action@v0.1.3
