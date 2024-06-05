@@ -15,6 +15,15 @@ jobs:
           echo "PUBLIC_KEY<<EOF" >> $GITHUB_ENV
           cat testdata/.ssh/id_rsa.pub >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          echo "======= public key ========="
+          cat testdata/.ssh/id_rsa.pub
+          echo "============================"
+          echo "PRIVATE_KEY<<EOF" >> $GITHUB_ENV
+          cat testdata/.ssh/id_rsa >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "======= private key ========="
+          cat testdata/.ssh/id_rsa
+          echo "============================"
 
       - name: create new ssh server
         run: |
@@ -44,6 +53,6 @@ jobs:
         with:
           host: ${{ env.REMOTE_HOST }}
           username: linuxserver.io
-          password: password
+          key: ${{ env.PRIVATE_KEY }}
           port: 2222
           script: whoami
