@@ -10,28 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install SSH Server
-        run: sudo apt-get update && sudo apt-get install -y openssh-server sshpass
-
-      - name: Configure SSH Server
-        run: |
-          sudo mkdir -p /var/run/sshd
-          echo 'root:password' | sudo chpasswd
-          sudo sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-          sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
-          sudo service ssh start
-
-      - name: Display SSH Server Status
-        run: sudo service ssh status
-
-      - name: Print SSH Connection Details
-        id: ssh
-        run: |
-          echo "SSH Server is running."
-          echo "You can connect using the following command:"
-          echo "ssh root@$(curl -s ifconfig.me) -p 22"
-          echo CURRENT_IP=$(curl -s ifconfig.me) >> $GITHUB_OUTPUT
-
       - name: create new ssh server
         run: |
           docker run -d \
