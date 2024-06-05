@@ -44,7 +44,7 @@ jobs:
           -e USER_NAME=linuxserver.io \
           --restart unless-stopped \
           lscr.io/linuxserver/openssh-server:latest
-          docker exec openssh-server sh -c "hostname --ip-address" > ip.txt
+          docker exec openssh-server sh -c "hostname -i" > ip.txt
           echo "REMOTE_HOST<<EOF" >> $GITHUB_ENV
           cat ip.txt >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
