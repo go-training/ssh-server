@@ -67,8 +67,8 @@ jobs:
           - 2222:2222
         env:
           PASSWORD_ACCESS: true
-          USER_NAME: password
-          USER_PASSWORD: linuxserver.io
+          USER_PASSWORD: password
+          USER_NAME: linuxserver.io
 
     steps:
       - name: Checkout code
