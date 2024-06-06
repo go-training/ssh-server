@@ -69,6 +69,7 @@ jobs:
           PASSWORD_ACCESS: true
           USER_PASSWORD: password
           USER_NAME: linuxserver.io
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY }}
 
     steps:
       - name: Checkout code
@@ -85,8 +86,6 @@ jobs:
         run: |
           SSHD_IP=${{ steps.sshd.outputs.sshd_ip }}
           echo "SSHD IP: $SSHD_IP"
-          # 在這裡運行你的測試命令，並使用獲取到的 IP 地址
-          echo "Running tests..."
 
       - name: executing remote ssh commands using password (1.0.3)
         uses: appleboy/ssh-action@v1.0.3
@@ -95,5 +94,15 @@ jobs:
           host: ${{ steps.sshd.outputs.sshd_ip }}
           username: linuxserver.io
           password: password
+          port: 2222
+          script: whoami
+
+      - name: executing remote ssh commands using password (1.0.3)
+        uses: appleboy/ssh-action@v1.0.3
+        if: always()
+        with:
+          host: ${{ steps.sshd.outputs.sshd_ip }}
+          username: linuxserver.io
+          key: ${{ env.PRIVATE_KEY }}
           port: 2222
           script: whoami
