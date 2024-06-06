@@ -79,12 +79,11 @@ jobs:
         run: |
           SSHD_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${{ job.services.sshd.id }})
           echo "SSHD IP: $SSHD_IP"
-          echo "::set-output name=sshd_ip::$SSHD_IP"
+          echo "sshd_ip=$SSHD_IP" >> $GITHUB_OUTPUT
 
       - name: Run tests
         run: |
           SSHD_IP=${{ steps.sshd.outputs.sshd_ip }}
           echo "SSHD IP: $SSHD_IP"
-          echo "${{ env.PUBLIC_KEY }}"
           # 在這裡運行你的測試命令，並使用獲取到的 IP 地址
           echo "Running tests..."
