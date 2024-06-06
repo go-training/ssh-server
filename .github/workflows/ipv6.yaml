@@ -17,7 +17,7 @@ jobs:
           # Extract the container IP from /etc/hosts
           CONTAINER_IP=$(grep $(hostname) /etc/hosts | awk '{ print $1 }')
           echo "Container IP: $CONTAINER_IP"
-          CONTAINER_IPV6=$(grep $(hostname) /etc/hosts | grep -o '([a-fA-F0-9:]+:+)+[a-fA-F0-9]+')
+          CONTAINER_IPV6=
           cat /etc/hosts
           echo "Container IPv6: $CONTAINER_IPV6"
           # Set the container IP as an environment variable
