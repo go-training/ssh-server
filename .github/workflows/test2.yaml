@@ -85,5 +85,6 @@ jobs:
         run: |
           SSHD_IP=${{ steps.sshd.outputs.sshd_ip }}
           echo "SSHD IP: $SSHD_IP"
+          echo "${{ env.PUBLIC_KEY }}"
           # 在這裡運行你的測試命令，並使用獲取到的 IP 地址
           echo "Running tests..."
