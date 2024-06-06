@@ -12,14 +12,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker
+      - name: Get Container IP from /etc/hosts
         run: |
-          # Get the container ID of the current container
-          CONTAINER_ID=$(cat /proc/self/cgroup | grep 'docker' | sed 's/^.*\///' | tail -n 1)
-          echo "Container ID: $CONTAINER_ID"
-
-          # Get the container IP address using docker inspect
-          CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $CONTAINER_ID)
+          # Extract the container IP from /etc/hosts
+          CONTAINER_IP=$(grep $(hostname) /etc/hosts | awk '{ print $1 }')
           echo "Container IP: $CONTAINER_IP"
 
           # Set the container IP as an environment variable
