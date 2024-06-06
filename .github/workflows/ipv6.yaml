@@ -17,9 +17,15 @@ jobs:
           # Extract the container IP from /etc/hosts
           CONTAINER_IP=$(grep $(hostname) /etc/hosts | awk '{ print $1 }')
           echo "Container IP: $CONTAINER_IP"
-
+          CONTAINER_IPV6=$(grep $(hostname) /etc/hosts | grep -oP '([a-fA-F0-9:]+:+)+[a-fA-F0-9]+')
+          echo "Container IPv6: $CONTAINER_IPV6"
           # Set the container IP as an environment variable
           echo "CONTAINER_IP=$CONTAINER_IP" >> $GITHUB_ENV
+          # Set the container IPv6 as an environment variable
+          echo "CONTAINER_IPV6=$CONTAINER_IPV6" >> $GITHUB_ENV
+
+      - name: Use Container IPv6
+        run: echo "The container IPv6 is ${{ env.CONTAINER_IPV6 }}"
 
       - name: Use Container IP
         run: echo "The container IP is ${{ env.CONTAINER_IP }}"
