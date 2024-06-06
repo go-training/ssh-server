@@ -75,6 +75,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: add public key to env
+        run: |
+          echo "PUBLIC_KEY<<EOF" >> $GITHUB_ENV
+          cat testdata/.ssh/id_rsa.pub >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "======= public key ========="
+          cat testdata/.ssh/id_rsa.pub
+          echo "============================"
+          echo "PRIVATE_KEY<<EOF" >> $GITHUB_ENV
+          cat testdata/.ssh/id_rsa >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "======= private key ========="
+          cat testdata/.ssh/id_rsa
+          echo "============================"
+
       - name: Get sshd container IP
         id: sshd
         run: |
@@ -99,7 +114,6 @@ jobs:
 
       - name: executing remote ssh commands using password (1.0.3)
         uses: appleboy/ssh-action@v1.0.3
-        if: always()
         with:
           host: ${{ steps.sshd.outputs.sshd_ip }}
           username: linuxserver.io
